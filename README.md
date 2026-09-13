@@ -1,6 +1,6 @@
 # ShangGroup 计算资源与使用手册
 
-ShangGroup 隶属于 YangGroup。本网站汇总本组 HFNL 2 节点 CPU 服务器和上级实验室可按权限申请使用的 CPU / GPU 资源。
+本网站汇总本组 HFNL 2 节点 CPU 服务器和 YangGroup 可按权限申请使用的 CPU / GPU 资源。
 
 ## [点击进入 ShangGroup 计算资源使用手册](https://shanghhgroup.github.io/ComputeResources/)
 
@@ -11,7 +11,7 @@ ShangGroup 隶属于 YangGroup。本网站汇总本组 HFNL 2 节点 CPU 服务�
 
 ## 本次更新
 
-- 首页沿用原主题和文章列表样式，以本组 2 节点 CPU 手册为主，增加 YangGroup 资源入口。
+- 增加 YangGroup 资源入口。
 - 固定阅读顺序为：总览 → CPU 节点 → 登录 → 软件环境 → Slurm 作业提交 → 存储与网络 → GPU 资源 → 常见问题。全部 8 篇在首页与手册目录完整列出，取消日期倒序和分页；文章前后导航使用同一顺序。
 - 保留 `/page2/` 旧书签的兼容目录页，修正实验室 logo 的路径前缀重复问题。
 - 新增 `/yanggroup-resources/`，整理 4 套 CPU 集群、5 台 GPU 服务器及使用流程。
@@ -19,8 +19,6 @@ ShangGroup 隶属于 YangGroup。本网站汇总本组 HFNL 2 节点 CPU 服务�
 - YangGroup 明细统计：97 个 CPU 节点、4976 个 CPU 核心，28 张 NVIDIA V100。以上按手册规模计算，不含本组 2 节点，不代表个人配额或实时空闲量。
 - CPU：Cluster9 使用 PBS，Cluster10–12 使用 Slurm；GPU 服务器在来源手册中标注为无作业调度系统。
 - 修正原有 GPU、FAQ、简介和关于页面的范围表述，保留全部 8 篇原手册的相对路径；本站的网址前缀为 `/ComputeResources`。
-
-来源为《YangGroup 服务器用户手册》，核对日期 2026-09-13。CPU 表格中的 Cluster10 多余标点依据其“两个 144 核心 fat 节点”备注整理为 20 × 28 + 2 × 144。本组 2 节点数量来自维护者说明。未提供的 CPU 型号、内存、GPU 显存或其他配置不补写。
 
 公开包不包含 Notion 原文、原始链接、截图、真实登录地址、凭据或端口映射。完整接入方式通过组内渠道获取。
 
