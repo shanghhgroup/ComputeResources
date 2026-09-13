@@ -1,0 +1,9 @@
+# 阅读顺序与文章日期无关；首页、手册目录及文章前后导航共用此列表。
+- slug: server-overview
+- slug: cpu-nodes
+- slug: login-guide
+- slug: software-environment
+- slug: slurm-guide
+- slug: storage-network
+- slug: gpu-nodes
+- slug: faq

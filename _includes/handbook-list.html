@@ -1,0 +1,6 @@
+<div class="entries-list">
+  {% for chapter in site.data.handbook %}
+    {% assign post = site.posts | where: "slug", chapter.slug | first %}
+    {% if post %}{% include archive-single.html type="list" %}{% endif %}
+  {% endfor %}
+</div>

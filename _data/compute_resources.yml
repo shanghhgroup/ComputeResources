@@ -1,0 +1,56 @@
+# 只维护适合公开的资源概况；不要加入登录地址、凭据、端口或内部手册链接。
+# 页面中的节点、核心和 GPU 合计由以下明细自动计算。
+reviewed_on: "2026-09-13"
+source_title: "YangGroup 服务器用户手册"
+source_sections: "组内服务器一览、申请服务器账号、各服务器使用的任务管理系统"
+shanggroup:
+  name: "ShangGroup HFNL"
+  node_count: 2
+  scheduler: "Slurm"
+cpu_clusters:
+  - name: "Cluster9"
+    scheduler: "PBS"
+    groups:
+      - nodes: 23
+        cores_per_node: 24
+      - nodes: 6
+        cores_per_node: 28
+    note: "两类节点；提交前确认对应队列。"
+  - name: "Cluster10"
+    scheduler: "Slurm"
+    groups:
+      - nodes: 20
+        cores_per_node: 28
+      - nodes: 2
+        cores_per_node: 144
+    note: "含 2 个 144 核 fat 节点；内存容量需内部确认。"
+  - name: "Cluster11"
+    scheduler: "Slurm"
+    groups:
+      - nodes: 31
+        cores_per_node: 48
+    note: "具体分区、配额与可用状态需内部确认。"
+  - name: "Cluster12"
+    scheduler: "Slurm"
+    groups:
+      - nodes: 15
+        cores_per_node: 128
+    note: "具体分区、配额与可用状态需内部确认。"
+gpu_servers:
+  - name: "gpu1"
+    model: "NVIDIA V100"
+    gpu_count: 8
+  - name: "gpu2"
+    model: "NVIDIA V100"
+    gpu_count: 8
+  - name: "dgx-station1"
+    model: "NVIDIA V100"
+    gpu_count: 4
+  - name: "dgx-station2"
+    model: "NVIDIA V100"
+    gpu_count: 4
+  - name: "dgx-station3"
+    model: "NVIDIA V100"
+    gpu_count: 4
+gpu_scheduler: "手册标注无作业调度系统"
+access_support: "跳板机用于经授权的远程接入，不计入计算资源总量。"

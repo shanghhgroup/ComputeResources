@@ -1,0 +1,17 @@
+---
+layout: archive
+author_profile: true
+title: "ShangGroup 计算资源使用手册"
+---
+
+{% include compute-totals.html %}
+<p>本组 <strong>HFNL {{ resources.shanggroup.node_count }} 节点 CPU 服务器</strong>使用 {{ resources.shanggroup.scheduler }} 调度。本页按使用流程整理服务器手册。</p>
+
+<div class="notice--info" aria-label="YangGroup 共享资源入口">
+  <p><strong>YangGroup 共享资源：</strong>ShangGroup 隶属于 YangGroup，还可按组内规则申请上级实验室的 {{ resources.cpu_clusters | size }} 套 CPU 集群和 {{ resources.gpu_servers | size }} 台 GPU 服务器（共 {{ yang_gpu_count }} 张 V100）。</p>
+  <p><a href="{{ '/yanggroup-resources/' | relative_url }}"><strong>查看 YangGroup CPU / GPU 资源清单与申请说明 →</strong></a></p>
+</div>
+
+<h2 class="archive__subtitle">本组服务器使用手册</h2>
+<p class="compute-source-note">全部 8 篇按使用流程列在下方，无需翻页。</p>
+{% include handbook-list.html %}

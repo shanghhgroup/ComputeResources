@@ -1,0 +1,103 @@
+---
+layout: single
+permalink: /yanggroup-resources/
+title: "YangGroup 共享计算资源"
+description: "ShangGroup 可按组内规则申请使用的 YangGroup CPU 集群、V100 GPU 服务器与申请流程。"
+author_profile: true
+classes: wide
+toc: false
+---
+
+{% include compute-totals.html %}
+<section aria-label="资源范围说明">
+  <p>ShangGroup 是 YangGroup 下属实验室。除本组 <a href="{{ '/blog/cpu-nodes/' | relative_url }}">{{ resources.shanggroup.node_count }} 节点 HFNL CPU 服务器</a>外，组内成员可联系管理员，按权限和使用规则申请下列 YangGroup 资源。</p>
+  <p class="compute-source-note">以下依据《{{ resources.source_title }}》整理，核对日期：{{ resources.reviewed_on }}。设备清单不代表实时空闲量、已开通权限或个人配额。</p>
+</section>
+
+<p class="notice--info"><strong>YangGroup 手册清单规模：</strong>{{ resources.cpu_clusters | size }} 套 CPU 集群，共 {{ yang_cpu_nodes }} 个节点、{{ yang_cpu_cores }} 个 CPU 核心；{{ resources.gpu_servers | size }} 台 GPU 服务器，共 {{ yang_gpu_count }} 张 NVIDIA V100。</p>
+<p class="compute-source-note">合计仅按下列 YangGroup 明细计算，不含 ShangGroup 本组 2 节点，也不含接入用跳板机。CPU 核数沿用原手册“核心数”口径。</p>
+
+<nav class="compute-quick-links" aria-label="本页目录">
+  <a href="#cpu-resources">CPU 集群</a>
+  <a href="#gpu-resources">GPU 服务器</a>
+  <a href="#choose">如何选择</a>
+  <a href="#access">申请与使用</a>
+  <a href="#source">来源与口径</a>
+</nav>
+
+<h2 id="cpu-resources">CPU 集群</h2>
+<p>下表中的配置表示“节点数 × 每节点核心数”。提交作业前，请确认所在集群的调度系统、可用队列和账号额度。</p>
+<p class="compute-table-hint">小屏幕可左右滑动表格查看完整内容。</p>
+<div class="compute-table-wrap" role="region" aria-label="YangGroup CPU 集群配置表，可横向滚动" tabindex="0">
+  <table class="compute-table">
+    <caption>YangGroup CPU 集群清单</caption>
+    <thead><tr><th scope="col">集群</th><th scope="col">节点配置</th><th scope="col">节点合计</th><th scope="col">核心合计</th><th scope="col">作业调度</th><th scope="col">说明</th></tr></thead>
+    <tbody>
+    {% for cluster in resources.cpu_clusters %}
+      {% assign cluster_nodes = 0 %}{% assign cluster_cores = 0 %}
+      {% for group in cluster.groups %}
+        {% assign group_cores = group.nodes | times: group.cores_per_node %}
+        {% assign cluster_nodes = cluster_nodes | plus: group.nodes %}
+        {% assign cluster_cores = cluster_cores | plus: group_cores %}
+      {% endfor %}
+      <tr>
+        <th scope="row">{{ cluster.name }}</th>
+        <td>{% for group in cluster.groups %}{{ group.nodes }} × {{ group.cores_per_node }} 核{% unless forloop.last %}<br>+ {% endunless %}{% endfor %}</td>
+        <td>{{ cluster_nodes }}</td><td>{{ cluster_cores }}</td>
+        <td><span class="compute-tag">{{ cluster.scheduler }}</span></td><td>{{ cluster.note }}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+    <tfoot><tr><th scope="row">清单合计</th><td>{{ resources.cpu_clusters | size }} 套集群</td><td>{{ yang_cpu_nodes }}</td><td>{{ yang_cpu_cores }}</td><td colspan="2">不代表可同时申请的额度</td></tr></tfoot>
+  </table>
+</div>
+<p class="compute-source-note">Cluster10 原手册的配置表达含多余标点；结合“两个 144 核心的 fat 节点”的备注，此处整理为 20 × 28 + 2 × 144。fat 节点的内存容量未给出，不能据此推定。</p>
+
+<h2 id="gpu-resources">GPU 服务器</h2>
+<p>原手册列出以下 5 台服务器，均使用 V100 GPU，作业管理一栏均标注“无”。使用前应与管理员协调 GPU 分配和运行方式。</p>
+<div class="compute-table-wrap" role="region" aria-label="YangGroup GPU 服务器配置表，可横向滚动" tabindex="0">
+  <table class="compute-table">
+    <caption>YangGroup GPU 服务器清单</caption>
+    <thead><tr><th scope="col">服务器</th><th scope="col">GPU 型号</th><th scope="col">GPU 数量</th><th scope="col">作业管理</th></tr></thead>
+    <tbody>
+    {% for server in resources.gpu_servers %}
+      <tr><th scope="row">{{ server.name }}</th><td>{{ server.model }}</td><td>{{ server.gpu_count }} 张</td><td>{{ resources.gpu_scheduler }}</td></tr>
+    {% endfor %}
+    </tbody>
+    <tfoot><tr><th scope="row">清单合计</th><td>{{ resources.gpu_servers | size }} 台服务器</td><td>{{ yang_gpu_count }} 张</td><td>使用安排以管理员确认为准</td></tr></tfoot>
+  </table>
+</div>
+<p class="compute-source-note">手册未给出 GPU 显存容量、互联方式、主机 CPU / 内存配置及当前 CUDA 环境。这里不补写未经核实的规格，也不将 28 张卡视为一个可统一调度的 GPU 池。</p>
+
+<h2 id="choose">如何选择计算资源</h2>
+<p>以下是根据资源类型给出的使用建议；实际软件兼容性、性能和资源额度需在目标服务器确认。</p>
+<div>
+  <section>
+    <h3>CPU 计算与批量作业</h3>
+    <p>本组日常 CPU 计算可先参考 <a href="{{ '/blog/cpu-nodes/' | relative_url }}">HFNL 手册</a>。需要更多 CPU 资源时，可申请 YangGroup 集群。Cluster9 使用 PBS，Cluster10–12 使用 Slurm。</p>
+  </section>
+  <section>
+    <h3>GPU / CUDA 计算</h3>
+    <p>需要 GPU 加速时，可申请 YangGroup 的 V100 服务器。先确认程序对 V100、驱动及 CUDA 版本的要求，再协调所需卡数和运行时长。</p>
+  </section>
+</div>
+<p>需要单节点较多 CPU 核心时，可向管理员询问 Cluster10 的 144 核 fat 节点或 Cluster12 的 128 核节点；需要大内存时，应先核实内存容量和可申请额度。</p>
+
+<h2 id="access">申请与使用</h2>
+<ol class="compute-steps">
+  <li><strong>说明任务需求。</strong>准备 CPU / GPU 类型、预计核数或卡数、内存或显存需求、运行时长和软件环境。</li>
+  <li><strong>通过组内渠道联系管理员。</strong>申请目标平台账号，确认 ShangGroup 成员权限、资源配额和使用规则；已有 HFNL 账号不代表其他集群已开通。</li>
+  <li><strong>获取内部接入说明。</strong>登录地址、认证方式和远程接入安排由管理员提供。{{ resources.access_support }}</li>
+  <li><strong>按目标平台提交任务。</strong>Cluster9 按 PBS 规则；Cluster10–12 按 Slurm 规则。GPU 服务器先确认管理员安排，再运行作业。</li>
+  <li><strong>小规模测试后扩大计算。</strong>检查环境、实际资源占用和输出，及时整理数据并释放资源。</li>
+</ol>
+<p>本网站原有 <a href="{{ '/blog/slurm-guide/' | relative_url }}">Slurm 手册</a>针对 ShangGroup HFNL 的通用流程；在 YangGroup 集群上使用时，需按目标平台修改队列、资源参数和环境设置。PBS 和无调度系统的 GPU 服务器应遵循各自的内部说明。</p>
+
+<h2 id="source">来源与统计口径</h2>
+<ul>
+  <li><strong>YangGroup 资源：</strong>依据《{{ resources.source_title }}》中的“组内服务器一览”和“各服务器使用的任务管理系统”，于 {{ resources.reviewed_on }} 核对。</li>
+  <li><strong>ShangGroup 本组资源：</strong>2 节点数量来自站点维护者说明；CPU / Slurm 使用方式沿用现有 HFNL 手册。本次没有获取本组的精确硬件规格。</li>
+  <li><strong>使用权限：</strong>原手册要求联系管理员开通账号。实际可申请设备、当前状态和配额以组内确认为准；本页不提供实时监控。</li>
+  <li><strong>公开范围：</strong>仅整理资源名称、硬件规模、调度方式和申请流程。完整内部手册请向管理员索取。</li>
+</ul>
+<p class="compute-back-link"><a href="{{ '/' | relative_url }}">← 返回计算资源首页</a></p>

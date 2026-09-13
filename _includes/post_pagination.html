@@ -1,0 +1,24 @@
+{% assign current_index = nil %}
+{% for chapter in site.data.handbook %}
+  {% if chapter.slug == page.slug %}{% assign current_index = forloop.index0 %}{% endif %}
+{% endfor %}
+{% if current_index != nil %}
+  {% assign previous_index = current_index | minus: 1 %}
+  {% assign next_index = current_index | plus: 1 %}
+  <nav class="pagination" aria-label="按手册顺序阅读">
+    {% if previous_index >= 0 %}
+      {% assign previous_chapter = site.data.handbook[previous_index] %}
+      {% assign previous_post = site.posts | where: "slug", previous_chapter.slug | first %}
+      <a href="{{ previous_post.url | relative_url }}" class="pagination--pager" rel="prev">上一篇：{{ previous_post.title }}</a>
+    {% else %}
+      <a href="{{ '/posts/' | relative_url }}" class="pagination--pager">手册目录</a>
+    {% endif %}
+    {% if next_index < site.data.handbook.size %}
+      {% assign next_chapter = site.data.handbook[next_index] %}
+      {% assign next_post = site.posts | where: "slug", next_chapter.slug | first %}
+      <a href="{{ next_post.url | relative_url }}" class="pagination--pager" rel="next">下一篇：{{ next_post.title }}</a>
+    {% else %}
+      <a href="{{ '/posts/' | relative_url }}" class="pagination--pager">返回手册目录</a>
+    {% endif %}
+  </nav>
+{% endif %}

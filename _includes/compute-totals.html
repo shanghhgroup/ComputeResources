@@ -1,0 +1,14 @@
+{%- assign resources = site.data.compute_resources -%}
+{%- assign yang_cpu_nodes = 0 -%}
+{%- assign yang_cpu_cores = 0 -%}
+{%- assign yang_gpu_count = 0 -%}
+{%- for cluster in resources.cpu_clusters -%}
+  {%- for group in cluster.groups -%}
+    {%- assign group_cores = group.nodes | times: group.cores_per_node -%}
+    {%- assign yang_cpu_nodes = yang_cpu_nodes | plus: group.nodes -%}
+    {%- assign yang_cpu_cores = yang_cpu_cores | plus: group_cores -%}
+  {%- endfor -%}
+{%- endfor -%}
+{%- for server in resources.gpu_servers -%}
+  {%- assign yang_gpu_count = yang_gpu_count | plus: server.gpu_count -%}
+{%- endfor -%}
