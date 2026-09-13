@@ -39,7 +39,7 @@ atom_feed:
 author:
   name: "ShangGroup"
   avatar: "/assets/images/lab_logo.png"
-  bio: "YangGroup 下属实验室\n计算资源与使用手册"
+  bio: "计算资源与使用手册"
   links:
     - label: "计算资源主页"
       icon: "fa-solid fa-server"
